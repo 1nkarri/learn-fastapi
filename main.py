@@ -13,6 +13,14 @@ movies = [
         "year": "2009",
         "rating": 7.8,
         "category": "Acción"
+    },
+    {
+        "id": 2,
+        "title": "Avatar",
+        "overview": "En un exuberante planeta llamado Pandora viven los Na'vi, seres que ...",
+        "year": "2009",
+        "rating": 7.8,
+        "category": "Acción"
     }
 ]
 
@@ -30,6 +38,11 @@ async def printhtml():
 @app.get('/movies', tags=['movies'])
 async def get_movies():
     return movies
+
+
+@app.get('/movies/{id}', tags=['movies'])
+async def get_movie(id: int):
+    return [item for item in movies if item["id"] == id]
 
 
 @app.get("/hello/{name}")
