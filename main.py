@@ -45,6 +45,6 @@ async def get_movie(id: int):
     return [item for item in movies if item["id"] == id]
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+@app.get('/movies', tags=['movies'])
+async def get_movies_by_category(category: str):
+    return category
