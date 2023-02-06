@@ -46,5 +46,5 @@ async def get_movie(id: int):
 
 
 @app.get('/movies', tags=['movies'])
-async def get_movies_by_category(category: str):
-    return category
+async def get_movies_by_category(category: str, year: int):
+    return category, year
