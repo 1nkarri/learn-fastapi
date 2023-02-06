@@ -45,6 +45,6 @@ async def get_movie(id: int):
     return [item for item in movies if item["id"] == id]
 
 
-@app.get('/movies', tags=['movies'])
+@app.get('/movies/', tags=['movies'])
 async def get_movies_by_category(category: str, year: int):
-    return category, year
+    return [movie for movie in movies if movie['category'] == category], year
