@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, Path
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 from typing import Optional
@@ -63,7 +63,7 @@ async def get_movies():
 
 
 @app.get('/movies/{id}', tags=['movies'])
-async def get_movie(id: int):
+async def get_movie(id: int = Path(ge=1, le=2000)):
     return [item for item in movies if item["id"] == id]
 
 
