@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Body, Path, Query
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel, Field
 from typing import Optional
 
@@ -59,22 +59,23 @@ async def printhtml():
 
 @app.get('/movies', tags=['movies'])
 async def get_movies():
-    return movies
+    return JSONResponse(content=movies)
 
 
 @app.get('/movies/{id}', tags=['movies'])
 async def get_movie(id: int = Path(ge=1, le=2000)):
-    return [item for item in movies if item["id"] == id]
+    return [JSONResponse(content=item) for item in movies if item["id"] == id]
 
 
 @app.get('/movies/', tags=['movies'])
 async def get_movies_by_category(category: str = Query(min_length=5, max_length=15)):
-    return [item for item in movies if item['category'] == category]
+    data = [item for item in movies if item['category'] == category]
+    return JSONResponse(content=data)
 
 @app.post('/movies', tags=['movies'])
 async def create_movies(movie: Movie):
     movies.append(dict(movie))
-    return movies
+    return JSONResponse(content={"message": "Se ha registrado la pelicula"})
 
 @app.put('/movies/{id}', tags=['movies'])
 async def update_movie(id: int, movie: Movie):
@@ -84,8 +85,9 @@ async def update_movie(id: int, movie: Movie):
             item['year'] == movie.year
             item['rating'] == movie.rating
             item['category'] == movie.category
-        return movies
+        return JSONResponse(content={"message": "Se ha modificado la pelicula"})
 
 @app.delete('/movies/{id}', tags=['movies'])
 async def delete_movie(id: int):
-    return [item for item in movies if item['id'] != id]
+    [movies.remove(item) for item in movies if item['id'] == id]
+    return JSONResponse(content={"message":"Se ha eliminado la pelicula"})
