@@ -70,4 +70,8 @@ async def update_movie(id: int, title: str = Body(), overview: str = Body(), yea
             item['year'] = year
             item['rating'] = rating
             item['category'] = category
-            return movies
+        return movies
+
+@app.delete('/movies/{id}', tags=['movies'])
+async def delete_movie(id: int):
+    return [item for item in movies if item['id'] != id]
