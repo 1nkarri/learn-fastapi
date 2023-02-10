@@ -10,8 +10,8 @@ app.version = "0.0.1"
 
 
 class User(BaseModel):
-    email: str
-    password: str
+    email:str
+    password:str
 
 
 class Movie(BaseModel):
@@ -66,11 +66,10 @@ async def printhtml():
 
 
 @app.post('/login', tags=['auth'])
-async def login(user: User):
+def login(user: User):
     if user.email == "admin@gmail.com" and user.password == "admin":
         token: str = create_token(user.dict())
         return JSONResponse(status_code=200, content=token)
-    return user
 
 
 @app.get('/movies', tags=['movies'], response_model=List[Movie], status_code=200)
